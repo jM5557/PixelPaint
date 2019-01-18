@@ -1,0 +1,221 @@
+<html>
+	<head>
+	  <meta charset="UTF-8">
+
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	  <title>
+	  	P5.JS Project
+	  </title>
+	  
+	  <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
+	 
+	 <!-- CSS STYLESHEET. This makes the webpage pretty -->
+	  <link rel = "stylesheet" type = "text/css" href = "main.css">
+
+	  <!-- this line removes any default padding and style. you might only need one of these values set. -->
+	  <style> body {padding: 0; margin: 0;} </style>
+	</head>
+
+	<body>
+		<ul id = "color-container">
+		</ul>
+
+		<div id = "canvas-container">
+			<span id = "pos-counter">
+			</span>
+			<br>
+		</div>
+
+	    <ul class = "control-container">
+	    	<li id = "clear-canvas">
+	    		Clear Canvas
+	    	</li>
+
+	    	<li id = "toggle-shape">
+	    		square
+	    	</li>
+
+	    	<li id = "toggle-action">
+	    		restricted
+	    	</li>
+
+	    	<li id = "toggle-grid-lock">
+	    		unlocked
+	    	</li>
+
+	    	<li id = "toggle-grid">grid off</li>
+
+	    	<li id = "toggle-pixel_s">small pixel</li>
+
+	    	<li id = "toggle-random">random drawing: off</li>
+
+	    	<li id = "toggle-fill">pick background: off</li>
+
+	    	<li id = "toggle-horiz-refl">horizontal reflection: off</li>
+
+	    	<li id = "toggle-vert-refl">vertical reflection: off</li>
+
+	    	<li id = "save-art">
+	    		Download Art
+	    	</li>
+	    </ul>
+
+	    <div id = "instructions-wrapper">
+	    	<ol>
+	    		<li>
+	    			<strong>Clear Canvas:</strong>
+	    			Erases everything from the artboard excluding the grid.
+	    		</li>
+	    		<li>
+	    			<strong>Shape:</strong>
+	    			Toggle between a <i>square pixel</i> or a <i>circle pixel</i>. Toggling between the two also toggles the cell-shape in the grid
+	    		</li>
+	    		<li>
+	    			<strong>Drawing Mode:</strong>
+	    			Toggle between a <i>restricted</i> or <i>free</i> drawing mode. In <i>restricted mode</i> pixels are placed one at a time as you click in a spot on the artboard. 
+
+	    			In <i>free mode</i> pixels are placed as you click and drag your mouse through the artboard.
+	    		</li>
+	    		<li>
+	    			<strong>Grid-Lock:</strong>
+	    			Toggle between <i>unlocked</i> and <i>grid-locked</i> pixel placement. The <i>unlocked</i> option allows you to place a pixel at any position in the artboard. The <i>grid-locked</i> option locks a pixel to the nearest grid cell. 
+	    		</li>
+	    		<li>
+	    			<strong>Grid Display:</strong>
+	    			Toggle between <i>grid off</i> and <i>grid on</i> to hide/display the grid.
+	    		</li>
+	    		<li>
+	    			<strong>Pixel Size:</strong>
+	    			Toggle between a <i>small pixel</i> (10x10) or a <i>large pixel</i> (20x20). This also resizes the grid appropriately.
+	    		</li>
+	    		<li>
+	    			<strong>Random Drawing:</strong>
+	    			Toggle between <i>on</i> or <i>off</i>. This setting continuously places pixels at random positions and of random colors.
+	    		</li>
+	    		<li>
+	    			<strong>Pick Background:</strong>
+	    			Toggle between <i>on</i> or <i>off</i>. This setting allows the user to pick the background color from the available range of colors when toggled <i>on</i>. Then, when toggled <i>off</i> the user can continue to draw with that background color set.
+	    				<br>
+	    			DEFAULT is white (255,255,255).
+	    				<br>
+	    			Note, that the background color is not shown when the grid is on.
+	    		</li>
+	    		<li>
+	    			<strong>Horizontal Reflection:</strong>
+	    			Toggle between <i>on</i> or <i>off</i>. This setting allows the user to draw with horizontal reflection when toggled <i>on</i>.
+	    		</li>
+	    		<li>
+	    			<strong>Vertical Reflection:</strong>
+	    			Toggle between <i>on</i> or <i>off</i>. This setting allows the user to draw with vertical reflection when toggled <i>on</i>.
+	    		</li>
+	    		<li>
+	    			<strong>Download Art:</strong>
+	    			Whenever you are satisfied with your art, click the button and your art will be saved with the filename and extension:
+	    				<br> 
+	    			<i>pixelate-pic.jpg</i>
+	    				<br>
+	    			Note that the art saves without the grid.
+	    		</li>
+	    	</ol>
+	    </div>
+
+	    <div class = "gallery-container">
+	    	<h1>Sample Art</h1>
+	    	<ul>
+	    		<li>
+	    			<img src="img.jpg">
+	    				<br>
+	    			<i>by Caitlin Sangcap</i>
+	    		</li>
+	    		<li>
+	    			<img src="img02.jpg">
+	    				<br>
+	    			<i>by Caitlin Sangcap</i>
+	    		</li>
+	    		<li>
+	    			<img src="img03.jpg">
+	    				<br>
+	    			<i>by Javier Minchala</i>
+	    		</li>
+	    	</ul>
+	    </div>
+
+	    <script>
+	     //colors in an rgb format
+	    var colors = [
+	    	"255,255,255", //white
+	    	"0,0,0", //black
+	    	"128,128,128", //gray
+	    	"255,0,0", //red
+	    	"0,255,0", //green
+	    	"0,0,255", //blue
+	    	"220,20,60", //crimson
+	    	"34,139,34", //forestgreen
+	    	"173,216,230", //lightblue
+	    	"255,255,0", //yellow
+	    	"128,0,128", //violet
+	    	"255,165,0", //orange
+	    	"165,42,42" //brown
+	    ];
+
+	    
+	    for(var i = 0; i < colors.length; i++){
+	    	var color_item = document.createElement("li");
+
+	    	//sets black as the default selected pixel color
+	    	if(i == 1)
+	    		color_item.className = "selected";
+
+	    	color_item.style.backgroundColor = "rgb("+ colors[i] + ")";
+
+	    	document.getElementById("color-container").appendChild(color_item);
+	    }
+
+	    	//HELPER FUNCTION
+	    	//Gets the background-color of the selected color element
+	    	//returns an object with "red", "green", "blue" properties
+			var elColor = function(){
+				var el = document.getElementsByClassName("selected")[0];
+
+				var selected_color = el.style.backgroundColor;
+				
+				selected_color = selected_color.slice(4);
+				selected_color = selected_color.slice(0, selected_color.length-1);
+
+				var color_arr = selected_color.split(",");
+
+				return {
+					"red" : color_arr[0],
+					"green" : color_arr[1],
+					"blue" : color_arr[2]
+				};
+			};
+
+			//stores the default selected color as a global variable
+			var currColor = elColor();
+
+			//MISC. code to allow picking between colors by clicking on a
+			//respective color element
+			var colorList = document.querySelectorAll("#color-container li");
+
+			var clear_colors = function(){
+				for(var s = 0; s < colorList.length; s++)
+					colorList[s].className = "";
+			}
+
+			for(var i = 0; i < colorList.length; i++){
+				colorList[i].addEventListener("click", function(){
+					clear_colors();
+					this.className = "selected";
+					currColor = elColor();
+				});
+			}
+		</script>
+
+	  <!-- uncomment lines below to include extra p5 libraries -->
+	  <!--<script language="javascript" src="libraries/p5.dom.js"></script>-->
+	  <!--<script language="javascript" src="libraries/p5.sound.js"></script>-->
+	  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+	</body>
+</html>
